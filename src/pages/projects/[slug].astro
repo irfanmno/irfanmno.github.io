@@ -32,7 +32,7 @@ const chapters = headings.filter((h) => h.depth === 2);
   <div class="wrap story-layout">
     <nav class="chapters" aria-label="chapters">
       <div class="kicker">Chapters</div>
-      {chapters.map((h, i) => <a href={`#${h.slug}`}>{i + 1} · {h.text.toLowerCase()}</a>)}
+      {chapters.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
     </nav>
     <main class="story-body">
       <Content />

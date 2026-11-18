@@ -32,7 +32,7 @@ const mail = me.contactEmail ? `mailto:${me.contactEmail}` : links.email;
       <div class="container">
         <h2>About Me</h2>
         <div class="about-content">
-          <div class="profile-photo profile-initials" role="img" aria-label={me.fullName}>MI</div>
+          <img class="profile-photo" src="/img/me.webp" alt={me.fullName} width="280" height="280" />
           <div class="about-text">
             {me.about.map((para) => <p>{para}</p>)}
           </div>

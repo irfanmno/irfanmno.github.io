@@ -30,6 +30,7 @@ export const skills = [
   { fa: 'fas fa-search-plus', title: 'Data Analysis', items: ['Python', 'SQL', 'pandas', 'NumPy', 'matplotlib'] },
   { fa: 'fas fa-chart-pie', title: 'Machine Learning & Statistics', items: ['scikit-learn', 'statsmodels', 'Regression & classification', 'Hypothesis testing'] },
   { fa: 'fas fa-cogs', title: 'Engineering & Cloud', items: ['TypeScript', 'React', 'Node.js', 'Docker', 'Google Cloud'] },
+  { fa: 'fas fa-robot', title: 'AI & Agents', items: ['LLM agents (Google ADK, Gemini API)', 'Model Context Protocol (MCP)', 'Tool calling & guardrails', 'Claude Code'] },
 ];
 
 // certifications: add real ones here (name, issuer, year, optional link)
