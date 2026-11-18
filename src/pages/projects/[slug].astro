@@ -16,10 +16,25 @@ const { project, prev, next } = Astro.props;
 const p = project.data;
 const { Content, headings } = await render(project);
 const chapters = headings.filter((h) => h.depth === 2);
+
+// "Experiment #N: ..." chapters are grouped in the sidebar: one entry per experiment,
+// covering both its explanation and its "Experiment #N: findings" chapter.
+const EXP = /^Experiment #(\d+):\s*(.*)$/i;
+const mainChapters = chapters.filter((h) => !EXP.test(h.text));
+const experiments: { num: string; title: string; slugs: string[] }[] = [];
+for (const h of chapters) {
+  const m = h.text.match(EXP);
+  if (!m) continue;
+  const [, num, rest] = m;
+  const existing = experiments.find((e) => e.num === num);
+  if (existing) existing.slugs.push(h.slug);
+  else experiments.push({ num, title: rest, slugs: [h.slug] });
+}
+const coverStyle = p.cover ? `--cover:url('${p.cover}')` : undefined;
 ---
 <Base title={p.crumb ?? p.title} description={p.hook} page="projects">
-  <div class:list={['story-hero', p.color === 'cs' ? '' : p.color]}>
-    {p.deco && <span class="deco" aria-hidden="true">{p.deco}</span>}
+  <div class:list={['story-hero', p.color === 'cs' ? '' : p.color, { 'has-cover': p.cover }]} style={coverStyle}>
+    {p.deco && !p.cover && <span class="deco" aria-hidden="true">{p.deco}</span>}
     <div class="wrap">
       <div class="crumbs" style="margin-bottom:24px"><a href="/">Home</a> / <a href="/projects/">Projects</a> / {p.crumb ?? p.title}</div>
       {p.sticker && <span class:list={['sticker', { live: p.live }]}>{p.sticker}</span>}
@@ -32,7 +47,19 @@ const chapters = headings.filter((h) => h.depth === 2);
   <div class="wrap story-layout">
     <nav class="chapters" aria-label="chapters">
       <div class="kicker">Chapters</div>
-      {chapters.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+      {mainChapters.map((h) => <a href={`#${h.slug}`}>{h.text}</a>)}
+      {experiments.length > 0 && (
+        <details class="exp-group" open>
+          <summary>Experiments <span class="count">{experiments.length}</span></summary>
+          <div class="exp-links">
+            {experiments.map((e) => (
+              <a href={`#${e.slugs[0]}`} data-sections={e.slugs.join(' ')}>
+                <span class="num">#{e.num}</span> {e.title}
+              </a>
+            ))}
+          </div>
+        </details>
+      )}
     </nav>
     <main class="story-body">
       <Content />

@@ -319,3 +319,22 @@ h1,h2,h3{font-weight:700;color:var(--primary)}
 .chapter th,.chapter td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
 .chapter th{background:var(--bg-2);color:var(--primary);font-weight:700}
 .chapter blockquote{margin:0 0 1rem;padding:12px 18px;border-left:3px solid var(--accent);background:var(--bg-2);font-style:italic}
+
+/* story header: the project's cover photo, dimmed so the text stays readable */
+.story-hero.has-cover{background:linear-gradient(rgba(14,17,22,.62),rgba(14,17,22,.74)),var(--cover) center/cover no-repeat}
+.story-hero.has-cover h1,.story-hero.has-cover p{text-shadow:0 1px 12px rgba(0,0,0,.35)}
+
+/* sidebar: experiments grouped and collapsible */
+.chapters .exp-group{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.chapters .exp-group summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px;padding:7px 10px;color:var(--accent);font-size:.72rem;text-transform:uppercase;letter-spacing:.12em}
+.chapters .exp-group summary::-webkit-details-marker{display:none}
+.chapters .exp-group summary::after{content:'▾';margin-left:auto;transition:transform .2s}
+.chapters .exp-group:not([open]) summary::after{transform:rotate(-90deg)}
+.chapters .exp-group .count{background:var(--accent-soft);border-radius:999px;padding:1px 7px;font-size:.7rem;letter-spacing:0}
+.chapters .exp-links{max-height:50vh;overflow-y:auto}
+.chapters .exp-links .num{color:var(--accent);font-weight:600}
+@media (max-width:980px){
+  .chapters .exp-group{margin:0 0 0 6px;padding:0 0 0 8px;border-top:0;border-left:1px solid var(--line);display:flex;align-items:center}
+  .chapters .exp-group[open]{gap:4px}
+  .chapters .exp-links{display:flex;gap:4px;max-height:none;overflow:visible}
+}

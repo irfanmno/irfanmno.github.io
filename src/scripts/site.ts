@@ -31,12 +31,18 @@ if (chapterLinks.length) {
   const bar = document.createElement('div');
   bar.className = 'progress';
   document.body.appendChild(bar);
-  const targets = chapterLinks.map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))));
+  // A link can cover several chapters (an experiment + its findings): data-sections="id1 id2".
+  const targets = chapterLinks
+    .flatMap((a, i) => (a.dataset.sections ?? decodeURIComponent(a.hash.slice(1))).split(' ')
+      .map((id) => ({ el: document.getElementById(id), i })))
+    .filter((t) => t.el)
+    .sort((a, b) => a.el!.getBoundingClientRect().top - b.el!.getBoundingClientRect().top);
   const onScroll = () => {
     const max = document.documentElement.scrollHeight - innerHeight;
     bar.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
     let cur = 0;
-    targets.forEach((t, i) => { if (t && t.getBoundingClientRect().top < innerHeight * 0.35) cur = i; });
+    const line = Math.min(innerHeight * 0.35, 170); // just below the sticky header, so short chapters still count
+    targets.forEach((t) => { if (t.el!.getBoundingClientRect().top < line) cur = t.i; });
     chapterLinks.forEach((a, i) => a.classList.toggle('active', i === cur));
   };
   addEventListener('scroll', onScroll, { passive: true });
