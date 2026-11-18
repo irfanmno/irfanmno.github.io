@@ -1,0 +1,49 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { projectsByKind, type Project } from '../../lib/projects';
+
+export async function getStaticPaths() {
+  const { stories } = await projectsByKind();
+  return stories.map((project, i) => ({
+    params: { slug: project.id },
+    props: { project, prev: stories[i - 1], next: stories[i + 1] },
+  }));
+}
+
+interface Props { project: Project; prev?: Project; next?: Project }
+const { project, prev, next } = Astro.props;
+const p = project.data;
+const { Content, headings } = await render(project);
+const chapters = headings.filter((h) => h.depth === 2);
+---
+<Base title={p.crumb ?? p.title} description={p.hook} page="projects">
+  <div class:list={['story-hero', p.color === 'cs' ? '' : p.color]}>
+    {p.deco && <span class="deco" aria-hidden="true">{p.deco}</span>}
+    <div class="wrap">
+      <div class="crumbs" style="margin-bottom:24px"><a href="/">Home</a> / <a href="/projects/">Projects</a> / {p.crumb ?? p.title}</div>
+      {p.sticker && <span class:list={['sticker', { live: p.live }]}>{p.sticker}</span>}
+      <h1>{p.title}</h1>
+      {p.intro && <p>{p.intro}</p>}
+      {p.updated && <p class="mono" style="color:#fffc;opacity:1;margin:0">last updated {p.updated.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>}
+    </div>
+  </div>
+
+  <div class="wrap story-layout">
+    <nav class="chapters" aria-label="chapters">
+      <div class="kicker">Chapters</div>
+      {chapters.map((h, i) => <a href={`#${h.slug}`}>{i + 1} · {h.text.toLowerCase()}</a>)}
+    </nav>
+    <main class="story-body">
+      <Content />
+      <div class="next-prev">
+        {prev
+          ? <a href={`/projects/${prev.id}/`}><span class="mono">← previous story</span><b>{prev.data.title}</b></a>
+          : <a href="/projects/"><span class="mono">← back to</span><b>All projects</b></a>}
+        {next
+          ? <a href={`/projects/${next.id}/`}><span class="mono">next story →</span><b>{next.data.title}</b></a>
+          : <a href="/projects/"><span class="mono">back to →</span><b>All projects</b></a>}
+      </div>
+    </main>
+  </div>
+</Base>

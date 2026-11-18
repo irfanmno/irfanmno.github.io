@@ -1,0 +1,86 @@
+/* Home page, rebuilt from the IssyDBI.github.io template (assets/css/style.css). Scoped under .tpl. */
+.tpl{font-family:'Lato',sans-serif;line-height:1.8;color:#343A40}
+.tpl .container{width:90%;max-width:1100px;margin:0 auto;padding:0 20px}
+.tpl a{text-decoration:none;color:#29B6F6;transition:all .3s ease-in-out}
+.tpl img{max-width:100%;height:auto}
+
+/* header */
+.tpl-header{background:#1A2A4C;color:#fff;padding:70px 0;text-align:center}
+.tpl-header h1{font-family:'Playfair Display',serif;font-size:4rem;font-weight:700;margin:0 0 15px;letter-spacing:1px;color:#fff;line-height:1.2}
+.tpl-header p{font-size:1.3rem;font-weight:300;opacity:.9;margin:0 0 35px}
+.tpl-header .social-links a{color:#fff;font-size:1.6rem;margin:0 15px;transition:transform .3s ease,color .3s ease;display:inline-block}
+.tpl-header .social-links a:hover{color:#29B6F6;transform:translateY(-3px)}
+
+/* sections */
+.tpl .section{padding:100px 0}
+.tpl .section h2{text-align:center;font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;margin:0 0 70px;position:relative;color:#1A2A4C;line-height:1.2}
+.tpl .section h2::after{content:'';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);width:70px;height:3px;background:#29B6F6}
+
+/* about */
+.tpl .about-content{display:flex;align-items:center;gap:60px;max-width:960px;margin:0 auto;text-align:left}
+.tpl .profile-photo{width:280px;height:280px;flex:none;border-radius:50%;object-fit:cover;border:7px solid #fff;box-shadow:0 10px 30px rgba(0,0,0,.1);background:#e9ecef;display:grid;place-items:center;color:#6c757d;font-size:.9rem}
+.tpl .profile-initials{font-family:"Playfair Display",Georgia,serif;font-size:5rem;font-weight:700;color:#1e2a4a;background:#e6ecf5}
+.tpl .about-text{flex:1}
+.tpl .about-text p{font-size:1.1rem;margin:0 0 15px;line-height:1.9}
+
+/* projects */
+.tpl .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:40px}
+.tpl .project-card{background:#fff;border-radius:5px;overflow:hidden;box-shadow:0 8px 25px rgba(0,0,0,.05);transition:transform .4s ease,box-shadow .4s ease;display:flex;flex-direction:column}
+.tpl .project-card:hover{transform:translateY(-12px);box-shadow:0 20px 40px rgba(0,0,0,.1)}
+.tpl .project-card img,.tpl .project-cover{width:100%;height:220px;object-fit:cover}
+/* until there's a screenshot: a cover drawn in the template colours */
+.tpl .project-cover{background:linear-gradient(135deg,#1A2A4C,#3D5A80);color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 30px;position:relative;overflow:hidden}
+.tpl .project-cover b{font-family:'Playfair Display',serif;font-size:2.6rem;line-height:1.1}
+.tpl .project-cover.small b{font-size:1.6rem}
+.tpl .project-cover span{opacity:.8;font-size:.95rem}
+.tpl .project-cover .status{position:absolute;top:16px;right:16px;background:#29B6F6;color:#fff;font-size:.75rem;font-weight:700;padding:3px 10px;border-radius:99px;opacity:1}
+.tpl .project-card-content{padding:30px;flex-grow:1;display:flex;flex-direction:column}
+.tpl .project-card-content h3{font-family:'Playfair Display',serif;font-size:1.8rem;margin:0 0 15px;color:#1A2A4C;line-height:1.25}
+.tpl .project-card-content p{color:#6c757d;margin:0 0 20px;flex-grow:1}
+.tpl .project-tools{list-style:none;padding:0;margin:0 0 24px;display:flex;flex-wrap:wrap;gap:6px}
+.tpl .project-tools li{font-size:.78rem;background:#f1f3f5;color:#3D5A80;border-radius:4px;padding:2px 8px;line-height:1.6}
+.tpl .project-buttons{display:flex;gap:15px;margin-top:auto}
+.tpl .btn{display:inline-block;background:#1A2A4C;color:#fff;padding:12px 20px;border-radius:5px;font-weight:700;text-align:center;transition:all .3s ease;flex:1;letter-spacing:.5px;border:2px solid transparent;line-height:1.4}
+.tpl .btn:hover{background:#29B6F6;color:#fff;transform:translateY(-2px)}
+.tpl .btn-secondary{background:transparent;color:#1A2A4C;border:2px solid #1A2A4C}
+.tpl .btn-secondary:hover{background:#1A2A4C;color:#fff}
+.tpl .sub-title{font-family:'Playfair Display',serif;color:#1A2A4C;font-size:1.8rem;text-align:center;margin:80px 0 40px}
+
+/* skills table */
+.tpl .skills-table{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:50px;background:#fff;padding:40px;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.07)}
+.tpl .skill-column{padding:0 20px}
+.tpl .skill-column:not(:last-child){border-right:1px solid #e9ecef}
+.tpl .skill-header{display:flex;align-items:center;margin-bottom:25px}
+.tpl .skill-header i{font-size:2rem;color:#29B6F6;margin-right:15px;width:40px}
+.tpl .skill-header h3{font-family:'Playfair Display',serif;font-size:1.7rem;color:#1A2A4C;margin:0;line-height:1.25}
+.tpl .skill-list{list-style:none;padding-left:0;margin:0}
+.tpl .skill-list li{padding:12px 0 12px 25px;font-size:1.05rem;color:#343A40;border-bottom:1px solid #f1f3f5;position:relative}
+.tpl .skill-list li::before{content:'›';position:absolute;left:0;top:12px;color:#29B6F6;font-weight:700;font-size:1.2rem}
+.tpl .skill-list li:last-child{border-bottom:none}
+.tpl .skill-list li small{display:block;color:#6c757d;font-size:.85rem;line-height:1.4}
+
+/* contact form */
+.tpl #contact .container{max-width:800px}
+.tpl .contact-form{max-width:700px;margin:0 auto;background:#fff;padding:40px;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,.07)}
+.tpl .contact-form > p{margin:0 0 25px}
+.tpl .form-group{margin-bottom:25px}
+.tpl .contact-form label{display:block;margin-bottom:8px;font-weight:700;font-size:1rem;color:#343A40}
+.tpl .contact-form input,.tpl .contact-form textarea{width:100%;padding:15px;border:1px solid #ccc;border-radius:5px;font-family:'Lato',sans-serif;font-size:1rem;transition:border-color .3s ease,box-shadow .3s ease;box-sizing:border-box}
+.tpl .contact-form input:focus,.tpl .contact-form textarea:focus{outline:none;border-color:#29B6F6;box-shadow:0 0 0 3px rgba(41,182,246,.25)}
+.tpl .contact-form button.btn{width:100%;padding:15px;font-size:1.1rem;font-weight:700;letter-spacing:.5px;border:none;cursor:pointer;font-family:'Lato',sans-serif}
+
+@media (max-width:992px){
+  .tpl .skills-table{grid-template-columns:1fr 1fr}
+  .tpl .skill-column:nth-child(2){border-right:none}
+}
+@media (max-width:768px){
+  .tpl-header h1{font-size:2.8rem}
+  .tpl .section{padding:70px 0}
+  .tpl .section h2{font-size:2.3rem}
+  .tpl .about-content{flex-direction:column;text-align:center;gap:30px}
+  .tpl .profile-photo{width:200px;height:200px}
+  .tpl #projects .container{padding:0 5px}
+  .tpl .projects-grid{grid-template-columns:1fr}
+  .tpl .skills-table{grid-template-columns:1fr;padding:20px;gap:40px}
+  .tpl .skill-column:not(:last-child){border-right:none;border-bottom:1px solid #e9ecef;padding-bottom:30px}
+}

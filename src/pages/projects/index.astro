@@ -1,0 +1,22 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projectsByKind } from '../../lib/projects';
+import '../../styles/template.css';
+
+const { stories, soon } = await projectsByKind();
+---
+<Base title="Projects" page="projects">
+  <div class="tpl">
+    <section class="section">
+      <div class="container">
+        <h2>My Projects</h2>
+        <div class="projects-grid">{stories.map((p) => <ProjectCard project={p} />)}</div>
+        {soon.length > 0 && <>
+          <h3 class="sub-title">In Progress</h3>
+          <div class="projects-grid">{soon.map((p) => <ProjectCard project={p} />)}</div>
+        </>}
+      </div>
+    </section>
+  </div>
+</Base>

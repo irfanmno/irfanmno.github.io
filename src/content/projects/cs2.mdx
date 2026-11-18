@@ -1,0 +1,104 @@
+---
+title: "CS2: A/B testing my own gameplay"
+# card image: my own CS2 screenshot
+cover: "/img/cs2-cover.webp"
+kind: story
+repo: https://github.com/irfanmno/cs2-analysis
+tags: ["Python", "pandas", "scikit-learn", "A/B testing", "Bootstrap"]
+order: 1
+featured: true
+crumb: CS2
+hook: A long-running A/B testing project on myself. I change one thing about how I play, measure it from my own match demos, and keep or drop it based on the data.
+stack: Python · demo parsing · win-probability model · A/B tests
+sticker: test 3 running
+live: true
+color: cs
+deco: CS
+bigNum: A/B
+numCap: one change at a time, measured from my own demos
+intro: Not a one-off analysis. A live project that will likely stay with me for as long as I play CS. I change one thing about how I play, measure it from my demos, and keep or drop it based on what the data says.
+updated: 2026-11-17
+---
+import Figure from '../../components/story/Figure.astro';
+import Blooper from '../../components/story/Blooper.astro';
+import Note from '../../components/story/Note.astro';
+import BarChart from '../../components/story/BarChart.astro';
+
+## Why this project
+
+I've played Counter-Strike since I was 15. This isn't a typical one-off data analytics project. It's a **long-running A/B testing project on myself**: I change one thing about how I play, measure it from my own demos, and keep or drop it based on what the data says. It also gives me direction while gaming.
+
+Every match I play on FACEIT is recorded as a demo file. I parse those demos into round-by-round data (positions every half second, kills, damage, grenades, economy), so each test is measured from what actually happened in game, not from memory.
+
+
+## How I run tests
+
+1. **One change at a time.** A new test starts only when the previous one has finished. Anything I keep becomes part of my "normal".
+2. **Only things I control myself.** Nothing that needs teammates to change.
+3. **Write it down before playing**, in plain words: what I do in game, what gets compared, for how long.
+4. **Length depends on how often it happens, not the calendar.** Something I can do many times a match needs ~1-2 weeks. Something rare needs ~20 matches. Match wins would need ~100 matches, so they're never the main measure.
+5. **Measure as close to the action as possible.** "Did the flash blind anyone, and did we win the fight right after?" says more, faster, than "did we win the round?".
+6. **Best when I can switch it on and off within the same matches**, so lobbies, teammates and form are the same on both sides.
+7. **Report whatever comes out**, including "no clear difference".
+
+## The groundwork
+
+Before testing anything, I needed to know where rounds are actually lost. I pulled every FACEIT match I've played and parsed the demos, checking the parser against FACEIT's own scoreboard: kills, deaths, assists, headshots and damage match exactly for all 10 players.
+
+<Blooper>My first damage numbers were way too high. I was counting overkill: a 400-damage AWP shot on a player with 100 HP.</Blooper>
+
+<BarChart
+  title="we win when the whole team shows up · players with K/D ≥ 1 → match win %"
+  max={100}
+  unit="%"
+  data={[
+    { label: '2 players', value: 28, tip: '2 of us with K/D ≥ 1 → we win 28%' },
+    { label: '3 players', value: 66, tip: '3 of us → 66%' },
+    { label: '4 players', value: 96, tip: '4 of us → 96%', highlight: true },
+  ]}
+/>
+
+- The recurring thing in lost rounds: **losing the first fight and nobody trading it**. That happens in 37% of our gun rounds, and we win only about a quarter of them.
+- I built a **win-probability model** (logistic regression, AUC 0.87, well calibrated) to measure how much each kill and death changes the chance of winning the round. That number is the main measure in my tests.
+
+<Blooper>I thought we lost T sides because we clumped up. Then I compared rounds within the same match, and it disappeared. The clumping happened *because* we'd already lost the first fight, not the other way round.</Blooper>
+
+## Test log
+
+| # | Test | When | Status | Result |
+|---|---|---|---|---|
+| 1 | Team habits: trade the first fight, more nades, me playing back on CT | 9-17 Nov 2026 | Stopped at 12/20 matches | The team never adopted the habits |
+| 2 | MAC-10 vs AK, decided by a random card | 17 Nov 2026 | Withdrawn before starting | The gun changes how I play, so it couldn't test the gun alone |
+| 3 | Planned CT rushes: 2-3 per half off a good spawn, never the same spot twice | from 17 Nov 2026, ~20 matches | **Running** | pending |
+
+## Test 1: team habits (failed)
+
+Three habits for the whole team, locked before playing, with targets and control metrics. The main one: get our first deaths traded more often (22.6% → target 35%).
+
+**I stopped it at 12 of 20 matches, because the habits never got done.** I couldn't make everyone play a certain way, since not everyone is willing to listen. Traded first deaths went from 22.6% to 20.0%, a change well within noise. So the test says nothing about whether trading more would help, only that telling five friends to trade more doesn't make it happen.
+
+<Note>lesson learned the hard way</Note>
+
+**What I took from it:** a test has to target something *I* control. Every test since is about my own play.
+
+## Test 3: planned CT rushes (running)
+
+> Playing CT passively helped me perform better and helped my mental state because I die less, but I feel less impactful. Since I'm mechanically better than my teammates, there may be some waste in not using me more aggressively.
+
+- **What I do:** on CT, when I spawn close to a spot, I rush it. At most 2-3 times per half, never the same spot twice in a match. Every other CT round stays passive.
+- **Comparison A (same games):** good spawn + rushed vs good spawn + didn't rush. Same lobbies and teammates on both sides.
+- **Comparison B (whole games):** my whole CT side in the trial vs the 2 weeks before, when I played passive. Catches knock-on effects, like a failed rush costing the team money.
+- **Measure:** my win probability added per round, plus how often I die and how often I get 2+ kills.
+- **Length:** about 20 matches. The result gets posted here, whatever it is.
+
+## What's next
+
+One test at a time, after test 3. Ideas that should give real results:
+
+- A new flash or smoke I've never used, thrown in some rounds and not others.
+- Playing off my spawn on CT vs a fixed position.
+- Where I hold on CT (e.g. Short vs Connector on Mirage) on alternating rounds.
+
+Ideas I've ruled out for now: anything that needs teammates, settings and crosshair changes (they only change per match and take time to get used to), and anything rare like clutches.
+
+All the code, notebooks and test write-ups are on [GitHub](https://github.com/irfanmno/cs2-analysis).

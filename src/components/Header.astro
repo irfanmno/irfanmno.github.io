@@ -1,0 +1,20 @@
+---
+// The sticky navigation bar from the template. On inner pages it adds a "Home" link.
+interface Props { page?: string }
+const { page = '' } = Astro.props;
+const onHome = page === 'home';
+const nav = [
+  { href: '/#about', key: 'about', label: 'About' },
+  { href: '/#projects', key: 'projects', label: 'Projects' },
+  { href: '/#skills', key: 'skills', label: 'Skills' },
+  { href: '/#contact', key: 'contact', label: 'Contact' },
+];
+---
+<nav class="tpl-nav" aria-label="main">
+  <ul>
+    {!onHome && <li><a href="/">← Home</a></li>}
+    {nav.map((n) => (
+      <li><a href={n.href} data-section={n.key} aria-current={page === n.key ? 'page' : undefined}>{n.label}</a></li>
+    ))}
+  </ul>
+</nav>

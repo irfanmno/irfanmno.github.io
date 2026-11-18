@@ -1,0 +1,28 @@
+---
+// Interactive bar chart. Hover a bar to see its note.
+// <BarChart title="..." max={100} unit="%" data={[{ label: '2 players', value: 28, tip: '...', highlight: true }]} />
+interface Bar { label: string; value: number; tip?: string; highlight?: boolean }
+interface Props { title: string; data: Bar[]; max?: number; unit?: string; idle?: string }
+const { title, data, max = Math.max(...data.map((d) => d.value)), unit = '', idle = 'hover a bar' } = Astro.props;
+const W = 600, H = 170, bottom = 24, top = 20;
+const bw = Math.min(110, (W / data.length) * 0.6);
+const gap = (W - bw * data.length) / (data.length + 1);
+const bars = data.map((d, i) => {
+  const h = ((H - bottom - top) * d.value) / max;
+  return { ...d, x: gap + i * (bw + gap), y: H - bottom - h, h };
+});
+const summary = data.map((d) => `${d.label} ${d.value}${unit}`).join(', ');
+---
+<figure class="fig" data-chart>
+  <div class="chart-title">{title}</div>
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${title}: ${summary}`}>
+    {bars.map((b) => (
+      <g>
+        <rect class:list={['bar', { hl: b.highlight }]} x={b.x} y={b.y} width={bw} height={b.h} rx="4" data-tip={b.tip ?? `${b.label}: ${b.value}${unit}`} />
+        <text class="val" x={b.x + bw / 2} y={b.y - 6} text-anchor="middle">{b.value}{unit}</text>
+        <text x={b.x + bw / 2} y={H - 4} text-anchor="middle">{b.label}</text>
+      </g>
+    ))}
+  </svg>
+  <div class="tip">{idle}</div>
+</figure>

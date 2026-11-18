@@ -1,0 +1,18 @@
+---
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'>; showStack?: boolean; class?: string }
+const { project, showStack = false, class: cls = '' } = Astro.props;
+const p = project.data;
+const isSoon = p.kind === 'soon';
+const Tag = isSoon ? 'div' : 'a';
+const colorClass = !isSoon && p.color ? `t-${p.color}` : '';
+---
+<Tag class:list={['tile', colorClass, { soon: isSoon }, cls]} href={isSoon ? undefined : `/projects/${project.id}/`}>
+  {p.sticker && <span class:list={['sticker', { live: p.live }]}>{p.sticker}</span>}
+  {p.deco && <span class="deco" aria-hidden="true">{p.deco}</span>}
+  {p.bigNum && <div class="big-num" style={p.bigNumSmall ? 'font-size:clamp(2rem,4vw,2.6rem)' : undefined}>{p.bigNum}</div>}
+  {p.numCap && <div class="num-cap">{p.numCap}</div>}
+  <h3>{p.title}</h3>
+  {(isSoon || showStack) && <p>{isSoon ? p.hook : p.stack}</p>}
+  {!isSoon && <div class="go">read the story →</div>}
+</Tag>

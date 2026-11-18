@@ -1,0 +1,6 @@
+---
+// Placeholder box for a photo/video that doesn't exist yet. Swap for <img> when you have it.
+interface Props { label: string; height?: number }
+const { label, height = 220 } = Astro.props;
+---
+<div class="ph" style={`height:${height}px`}>{label} (placeholder)</div>

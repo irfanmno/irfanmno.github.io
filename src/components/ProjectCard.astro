@@ -1,0 +1,33 @@
+---
+// Project card, same structure as the template: image, title, 1–2 sentences, buttons.
+import type { CollectionEntry } from 'astro:content';
+interface Props { project: CollectionEntry<'projects'> }
+const { project } = Astro.props;
+const p = project.data;
+const isStory = p.kind === 'story';
+const isSoon = p.kind === 'soon';
+const caseStudy = `/projects/${project.id}/`;
+const code = p.repo ?? p.link;
+---
+<div class="project-card">
+  {p.cover
+    ? <img src={p.cover} alt={`${p.title} preview`} />
+    : (
+      <div class:list={['project-cover', { small: p.bigNumSmall || !p.bigNum }]} aria-hidden="true">
+        {p.sticker && <span class="status">{p.sticker}</span>}
+        <b>{p.bigNum ?? p.tag ?? p.title}</b>
+        {p.numCap && <span>{p.numCap}</span>}
+      </div>
+    )}
+  <div class="project-card-content">
+    <h3>{p.title}</h3>
+    <p>{p.hook}</p>
+    {p.tags.length > 0 && <ul class="project-tools">{p.tags.map((t) => <li>{t}</li>)}</ul>}
+    {!isSoon && (
+      <div class="project-buttons">
+        {isStory && <a href={caseStudy} class="btn">Case Study</a>}
+        {code && <a href={code} target="_blank" rel="noopener" class:list={['btn', { 'btn-secondary': isStory }]}>Documentation</a>}
+      </div>
+    )}
+  </div>
+</div>
